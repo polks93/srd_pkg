@@ -1,1 +1,3 @@
-# srd_pkg
+Progetto di Sistemi Robotici Distributi @unipi
+
+Simulazione di mapping 
