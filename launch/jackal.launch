@@ -1,0 +1,50 @@
+<launch>
+    <!-- Gazebo parameters -->
+    <arg name="use_sim_time"    default="true" />
+    <arg name="gui"             default="true" />
+    <arg name="headless"        default="false" />
+    <arg name="debug"           default="false" />
+    <arg name="world_name"      default="$(find gazebo_ros)/worlds/empty_world.world" />
+
+      <!-- Launch Gazebo with the specified world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug"           value="$(arg debug)" />
+        <arg name="gui"             value="$(arg gui)" />
+        <arg name="use_sim_time"    value="$(arg use_sim_time)" />
+        <arg name="headless"        value="$(arg headless)" />
+        <arg name="world_name"      value="$(arg world_name)" />
+    </include>
+
+    <!-- Jackal starting position -->
+    <arg name="x"         default="0" />
+    <arg name="y"         default="0" />
+    <arg name="z"         default="1" />
+    <arg name="yaw"       default="0" />
+
+    <!-- Joystick and sensors -->
+    <arg name="joystick"  default="true" />
+    <arg name="config"    default="front_laser" />
+
+    <!-- Load Jackal's description -->
+    <include file="$(find jackal_description)/launch/description.launch">
+        <arg name="config" value="$(arg config)" />
+    </include>
+
+    <!-- Load Jackal's controller -->
+    <include file="$(find jackal_control)/launch/control.launch" />
+
+    <!-- Load Jackal's input -->
+    <include file="$(find jackal_control)/launch/teleop.launch">
+        <arg name="joystick" value="$(arg joystick)" />
+    </include>
+
+
+    <!-- Spawn Jackal -->
+    <node   name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+            args="-urdf -model jackal -param robot_description -x $(arg x) -y $(arg y) -z $(arg z) -R 0 -P 0 -Y $(arg yaw)" />
+
+    <!-- Open Rviz and jackal robot model -->
+    <param name="use_gui" value="true"/>
+    <arg name="rviz_config" default="robot" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg rviz_config).rviz" />
+</launch>
