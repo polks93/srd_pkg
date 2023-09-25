@@ -4,16 +4,16 @@
   <arg name="scan_topic" default="$(eval optenv('JACKAL_LASER_TOPIC', 'front/scan'))" />
 
   <!-- Run the map server -->
- <arg name="map_file" default="$(find jackal_navigation)/maps/jackal_race.yaml"/>
+ <arg name="map_file" default="$(find srd_pkg)/maps/cafe_map.yaml"/>
  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
   <!--- Run AMCL -->
-  <include file="$(find jackal_navigation)/launch/include/amcl.launch">
+  <include file="$(find srd_pkg)/jackal/jackal_navigation/launch/include/amcl.launch">
     <arg name="use_map_topic" value="$(arg use_map_topic)" />
     <arg name="scan_topic"    value="$(arg scan_topic)" />
   </include>
 
   <!--- Run Move Base -->
- <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
+ <include file="$(find srd_pkg)/jackal/jackal_navigation/launch/include/move_base.launch" />
 
 </launch>

@@ -1,9 +1,9 @@
 <launch>
 
-  <arg name="scan_topic" default="$(eval optenv('JACKAL_LASER_TOPIC', 'front/scan'))" />
+  <arg name="scan_topic" default="front/scan" />
 
   <!--- Run gmapping -->
-  <include file="$(find jackal_navigation)/launch/include/gmapping.launch">
+  <include file="$(find srd_pkg)jackal/jackal_navigation/launch/include/gmapping.launch">
     <arg name="scan_topic"    value="$(arg scan_topic)" />
   </include>
 

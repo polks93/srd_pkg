@@ -1,15 +1,26 @@
 <launch>
-    <!-- Map server node -->
-    <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find my_package)/maps/map.yaml"/>
+    <!-- Run Map server node -->
+    <!-- Default map is the cafe world map -->
+    <arg name="map_file"    default="$(find srd_pkg)/maps/cafe_map.yaml" />
+    <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(arg map_file)"/>
 
-    <!-- AMCL node -->
-    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <arg name="use_map_topic"   default="false"/>
+    <arg name="scan_topic"      default="$(eval optenv('JACKAL_LASER_TOPIC', 'front/scan'))" />    
+    
+      <!--- Run AMCL -->
+    <include file="$(find srd_pkg)/jackal/jackal_navigation/launch/include/amcl.launch">
+        <arg name="use_map_topic" value="$(arg use_map_topic)" />
+        <arg name="scan_topic"    value="$(arg scan_topic)" />
+    </include>
+    
+    <!-- Launch AMCL node
+    <node pkg="amcl" type="amcl" name="amcl" output="screen"> -->
 
         <!-- Remapping scan topic to grab the laser scan information provided by Jackal -->
-        <remap from="scan" to="front/scan"/>
+        <!-- <remap from="scan" to="front/scan"/> -->
 
         <!-- Parameters to publish scans from best pose at a max of 10Hz -->
-        <param name="odom_model_type"   value="diff"/>
+        <!-- <param name="odom_model_type"   value="diff"/>
         <param name="odom_alpha5"       value="0.1"/>
         <param name="gui_publish_rate"  value="10.0"/>
         <param name="laser_max_beams"   value="30"/>
@@ -18,10 +29,10 @@
         <param name="kld_err"           value="0.05"/>
         <param name="kld_z"             value="0.99"/>
         <param name="odom_alpha1"       value="0.2"/>
-        <param name="odom_alpha2"       value="0.2"/>
+        <param name="odom_alpha2"       value="0.2"/> -->
 
         <!-- Translation std dev, m -->
-        <param name="odom_alpha3"               value="0.8"/>
+        <!-- <param name="odom_alpha3"               value="0.8"/>
         <param name="odom_alpha4"               value="0.2"/>
         <param name="laser_z_hit"               value="0.5"/>
         <param name="laser_z_short"             value="0.05"/>
@@ -37,7 +48,9 @@
         <param name="resample_interval"         value="1"/>
         <param name="transform_tolerance"       value="0.1"/>
         <param name="recovery_alpha_slow"       value="0.0"/>
-        <param name="recovery_alpha_fast"       value="0.0"/>
-    </node>
+        <param name="recovery_alpha_fast"       value="0.0"/> 
+    </node> -->
 
+    <!-- Run Move Base -->
+    <!-- <include file="$(find srd_pkg)/jackal/jackal_navigation/launch/include/move_base.launch" /> -->
 </launch>

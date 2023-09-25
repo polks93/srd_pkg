@@ -1,0 +1,7 @@
+<launch>
+  <!-- config avaible: robot navigation gmapping localization model -->
+  <arg name="config"    default="robot" />
+  <param name="use_gui" value="true"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find srd_pkg)/jackal/rviz_config/$(arg config).rviz" />
+</launch>
