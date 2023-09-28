@@ -142,24 +142,6 @@
     </link>
   </xacro:unless>
 
-  <xacro:if value="$(optenv JACKAL_FRONT_ACCESSORY_FENDER 0)">
-    <link name="front_fender_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://srd_pkg/jackal/jackal_description/meshes/accessory_fender.stl"/>
-        </geometry>
-        <material name="yellow" />
-      </visual>
-    </link>
-
-    <link name="front_fender_accessory_link"/>
-    <joint name="front_fender_accessory_joint" type="fixed">
-      <origin xyz="0.25629 0 0.07455" rpy="${PI} 0 0" />
-      <parent link="front_fender_link" />
-      <child link="front_fender_accessory_link" />
-    </joint>
-  </xacro:if>
-
   <joint name="front_fender_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="chassis_link" />
@@ -176,24 +158,6 @@
       </visual>
     </link>
   </xacro:unless>
-
-  <xacro:if value="$(optenv JACKAL_REAR_ACCESSORY_FENDER 0)">
-    <link name="rear_fender_link">
-      <visual>
-        <geometry>
-          <mesh filename="package://srd_pkg/jackal/jackal_description/meshes/accessory_fender.stl"/>
-        </geometry>
-        <material name="yellow" />
-      </visual>
-    </link>
-
-    <link name="rear_fender_accessory_link"/>
-    <joint name="rear_fender_accessory_joint" type="fixed">
-      <origin xyz="0.25629 0 0.07455" rpy="${PI} 0 0" />
-      <parent link="rear_fender_link" />
-      <child link="rear_fender_accessory_link" />
-    </joint>
-  </xacro:if>
 
   <joint name="rear_fender_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 ${PI}"/>
@@ -261,15 +225,5 @@
        of these into the final description is controlled by optenv variables, which
        default each one to off.-->
   <xacro:include  filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories.urdf.xacro" />
-
-  <!-- OutdoorNav -->
-  <xacro:arg name="outdoornav_enabled"       default="$(optenv OUTDOORNAV_ENABLED 0)" />
-  <xacro:arg name="outdoornav_configuration" default="$(optenv OUTDOORNAV_CONFIGURATION standard)" />
-
-  <!-- OutdoorNav URDF Config -->
-  <xacro:if value="$(arg outdoornav_enabled)">
-    <xacro:include filename="$(find cpr_onav_description)/urdf/outdoornav_description.urdf.xacro" />
-    <xacro:outdoornav_sensors outdoornav_configuration="$(arg outdoornav_configuration)" />
-  </xacro:if>
 
 </robot>
