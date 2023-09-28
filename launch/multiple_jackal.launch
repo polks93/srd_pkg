@@ -1,0 +1,50 @@
+<launch>
+    <!-- Gazebo parameters -->
+    <arg name="use_sim_time"    default="true" />
+    <arg name="gui"             default="true" />
+    <arg name="headless"        default="false" />
+    <arg name="debug"           default="false" />
+    <arg name="paused"          default="true" />
+    <arg name="world_name"      default="$(find srd_pkg)/worlds/cafe.world" />
+
+    <!-- Jackal 1 parameters -->
+    <arg name="ns_1"            default="jackal_1" />
+    <arg name="config_1"        default="front_laser" />
+    <arg name="init_pose_1"     default="-x 0 -y 0 -Y 0" />
+    <arg name="twist_marker_1"  default="true" />
+
+    <!-- Jackal 2 parameters -->
+    <arg name="ns_2"            default="jackal_2" />
+    <arg name="config_2"        default="front_laser" />
+    <arg name="init_pose_2"     default="-x 2 -y 0 -Y 0" />
+    <arg name="twist_marker_2"  default="true" />
+    <arg name="jackal_2_spawn"  default="false" />
+
+    <!-- Launch Gazebo with empty world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+        <arg name="debug"           value="$(arg debug)" />
+        <arg name="gui"             value="$(arg gui)" />
+        <arg name="use_sim_time"    value="$(arg use_sim_time)" />
+        <arg name="headless"        value="$(arg headless)" />
+        <arg name="world_name"      value="$(arg world_name)" />
+        <arg name="paused"          value="$(arg paused)" />
+    </include>
+    
+    <!-- Launch Jackal 1 -->
+    <include file="$(find srd_pkg)/jackal/launch/jackal_spawner.launch" >
+        <arg name="ns"              value="$(arg ns_1)" />
+        <arg name="config"          value="$(arg config_1)" />
+        <arg name="init_pose"       value="$(arg init_pose_1)" />
+        <arg name="twist_marker"    value="$(arg twist_marker_1)" />
+    </include>
+
+    <!-- Launch Jackal 2 -->
+    <group if="$(arg jackal_2_spawn)" >
+        <include file="$(find srd_pkg)/jackal/launch/jackal_spawner.launch" >
+            <arg name="ns"              value="$(arg ns_2)" />
+            <arg name="config"          value="$(arg config_2)" />
+            <arg name="init_pose"       value="$(arg init_pose_2)" />
+            <arg name="twist_marker"    value="$(arg twist_marker_2)" />
+        </include>
+    </group>
+</launch>

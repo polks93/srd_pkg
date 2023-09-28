@@ -1,0 +1,22 @@
+<launch>
+    <arg name="ns"           default="jackal_0" />
+    <arg name="config"       default="base" />
+    <arg name="init_pose"    default="-x 0 -y 0 -Y 0" />
+    <arg name="twist_marker" default="true" />   
+
+    <!-- Launch Jackal controller -->
+    <include file="$(find srd_pkg)/jackal/jackal_control/launch/control_multiple.launch" >
+        <arg name="ns"              value="$(arg ns)" />
+        <arg name="twist_marker"    value="$(arg twist_marker)" />
+    </include>
+
+    <!-- Load Jackal robot description from URDF and launch the robot state publisher node -->
+    <include file="$(find srd_pkg)/jackal/jackal_description/launch/jackal_description.launch" >
+        <arg name="config"      value="$(arg config)" />
+        <arg name="ns"          value="$(arg ns)" />
+    </include>
+
+    <!-- Spawn Jackal in Gazebo -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" ns="$(arg ns)"
+          args="-urdf -model $(arg ns) -param /$(arg ns)/robot_description $(arg init_pose) -z 1" />
+</launch>

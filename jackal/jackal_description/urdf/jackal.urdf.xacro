@@ -19,11 +19,14 @@
   <xacro:property name="dummy_inertia"    value="1e-09"/>
   <xacro:property name="mount_spacing"    value="0.120" />
 
+  <xacro:property name="camera_link"    value="0.05" />
+
   <!-- Define colors -->
   <material name="dark_grey">   <color  rgba="0.2 0.2 0.2 1.0" />     </material>
   <material name="light_grey">  <color  rgba="0.4 0.4 0.4 1.0" />     </material>
   <material name="yellow">      <color  rgba="0.8 0.8 0.0 1.0" />     </material>
   <material name="black">       <color  rgba="0.15 0.15 0.15 1.0" />  </material>
+  <material name="red">         <color  rgba="0.8 0.0 0.0 1.0" />     </material>
 
   <xacro:macro name="wheel" params="prefix *joint_pose">
 
@@ -248,28 +251,25 @@
     <origin xyz="${mount_spacing} 0 0" />
   </joint>
 
+  <!-- Adding custom camera -->
+  <!-- <xacro:include filename="accessories/custom_camera.urdf.xacro" /> -->
+
   <!-- Bring in simulation data for Gazebo. -->
   <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/jackal.gazebo" />
 
   <!-- Optional standard accessories, including their simulation data. The rendering
        of these into the final description is controlled by optenv variables, which
        default each one to off.-->
-  <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories.urdf.xacro" />
+  <xacro:include  filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories.urdf.xacro" />
 
   <!-- OutdoorNav -->
-  <xacro:arg name="outdoornav_enabled"       default="$(optenv OUTDOORNAV_ENABLED 0)" />
-  <xacro:arg name="outdoornav_configuration" default="$(optenv OUTDOORNAV_CONFIGURATION standard)" />
+  <!-- <xacro:arg name="outdoornav_enabled"       default="$(optenv OUTDOORNAV_ENABLED 0)" />
+  <xacro:arg name="outdoornav_configuration" default="$(optenv OUTDOORNAV_CONFIGURATION standard)" /> -->
 
   <!-- OutdoorNav URDF Config -->
-  <xacro:if value="$(arg outdoornav_enabled)">
+  <!-- <xacro:if value="$(arg outdoornav_enabled)">
     <xacro:include filename="$(find cpr_onav_description)/urdf/outdoornav_description.urdf.xacro" />
     <xacro:outdoornav_sensors outdoornav_configuration="$(arg outdoornav_configuration)" />
-  </xacro:if>
-
-  <!-- Optional custom includes. -->
-  <xacro:include filename="$(optenv JACKAL_URDF_EXTRAS empty.urdf)" />
-
-  <!-- Optional for Clearpath internal softwares -->
-  <xacro:include filename="$(optenv CPR_URDF_EXTRAS empty.urdf)" />
+  </xacro:if> -->
 
 </robot>
