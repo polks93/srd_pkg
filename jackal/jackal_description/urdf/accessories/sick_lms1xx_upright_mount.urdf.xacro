@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories/lms1xx/urdf/sick_lms1xx.urdf.xacro" />
+  <xacro:include filename="$(find srd_pkg)/include/lms1xx/urdf/sick_lms1xx.urdf.xacro" />
 
   <xacro:macro name="sick_lms1xx_upright_mount" params="prefix topic parent_link *origin">
 
