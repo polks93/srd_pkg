@@ -14,7 +14,7 @@
             command="$(find srd_pkg)/jackal/jackal_description/scripts/env_run
                     $(find srd_pkg)/jackal/jackal_description/urdf/configs/$(arg config)
                     $(find xacro)/xacro '$(find srd_pkg)/jackal/jackal_description/urdf/jackal.urdf.xacro' 
-                    '--inorder' 'namespace:=$(arg ns)' 'config_id:=$(arg config_id)'" />
+                    --inorder namespace:=$(arg ns)" />
 
     <!-- Publish the robot joints. -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" ns="$(arg ns)">

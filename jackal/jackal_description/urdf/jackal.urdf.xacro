@@ -252,7 +252,7 @@
   </joint>
 
   <!-- Adding custom camera -->
-  <!-- <xacro:include filename="accessories/custom_camera.urdf.xacro" /> -->
+  <xacro:include filename="accessories/custom_camera.urdf.xacro" />
 
   <!-- Bring in simulation data for Gazebo. -->
   <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/jackal.gazebo" />
@@ -263,13 +263,13 @@
   <xacro:include  filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories.urdf.xacro" />
 
   <!-- OutdoorNav -->
-  <!-- <xacro:arg name="outdoornav_enabled"       default="$(optenv OUTDOORNAV_ENABLED 0)" />
-  <xacro:arg name="outdoornav_configuration" default="$(optenv OUTDOORNAV_CONFIGURATION standard)" /> -->
+  <xacro:arg name="outdoornav_enabled"       default="$(optenv OUTDOORNAV_ENABLED 0)" />
+  <xacro:arg name="outdoornav_configuration" default="$(optenv OUTDOORNAV_CONFIGURATION standard)" />
 
   <!-- OutdoorNav URDF Config -->
-  <!-- <xacro:if value="$(arg outdoornav_enabled)">
+  <xacro:if value="$(arg outdoornav_enabled)">
     <xacro:include filename="$(find cpr_onav_description)/urdf/outdoornav_description.urdf.xacro" />
     <xacro:outdoornav_sensors outdoornav_configuration="$(arg outdoornav_configuration)" />
-  </xacro:if> -->
+  </xacro:if>
 
 </robot>
