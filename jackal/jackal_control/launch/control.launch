@@ -12,6 +12,7 @@
     <node   name="controller_spawner" pkg="controller_manager" type="spawner"
             args="jackal_joint_publisher jackal_velocity_controller" ns="$(arg ns)" />
     
+    <!-- Navigation node -->
     <include file="$(find srd_pkg)/jackal/jackal_navigation/launch/jackal_nav.launch" >
         <arg name="ns"  value="$(arg ns)" />
     </include>

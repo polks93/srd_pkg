@@ -12,6 +12,14 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   tf
+  nav_msgs
+  controller_manager
+  interactive_marker_twist_server
+  gazebo_ros_control
+  hector_gazebo_plugins
+  joint_state_controller
+  diff_drive_controller
+  roslaunch
 )
 
 ## System dependencies are found with CMake's conventions

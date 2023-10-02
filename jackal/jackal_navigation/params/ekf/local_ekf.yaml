@@ -1,5 +1,3 @@
-#Configuation for robot odometry EKF
-#
 frequency: 50
 transform_time_offset: 0.1
 
