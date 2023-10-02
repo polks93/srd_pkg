@@ -1,9 +1,10 @@
 <launch>
     <arg name="ns"              default="jackal_0" />
     <arg name="twist_marker"    default="true" />
+    <arg name="global_ekf"      default="false" />
     
     <rosparam   command="load" 
-                file="$(find srd_pkg)/jackal/jackal_control/config/control.yaml" 
+                file="$(find srd_pkg)/jackal/params/control/control.yaml" 
                 ns="$(arg ns)" />
 
     <param name="$(arg ns)/jackal_velocity_controller/odom_frame_id" value="$(arg ns)/odom" />
@@ -14,12 +15,13 @@
     
     <!-- Navigation node -->
     <include file="$(find srd_pkg)/jackal/jackal_navigation/launch/jackal_nav.launch" >
-        <arg name="ns"  value="$(arg ns)" />
+        <arg name="ns"          value="$(arg ns)" />
+        <arg name="global_ekf"  value="$(arg global_ekf)" />
     </include>
     
     <!-- Multiplex to handle different cmd_vel input -->
     <node pkg="twist_mux" type="twist_mux" name="twist_mux" ns="$(arg ns)" >
-        <rosparam command="load" file="$(find srd_pkg)/jackal/jackal_control/config/twist_mux.yaml" />
+        <rosparam command="load" file="$(find srd_pkg)/jackal/params/control/twist_mux.yaml" />
         <remap from="cmd_vel_out" to="jackal_velocity_controller/cmd_vel" />
     </node>
     
