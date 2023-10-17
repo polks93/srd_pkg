@@ -11,7 +11,7 @@
     <arg name="ns_1"            default="jackal_1" />
     <arg name="config_1"        default="front_laser" />
     <arg name="init_pose_1"     default="-x 0 -y 0 -Y 0" />
-    <arg name="twist_marker_1"  default="true" />
+    <arg name="twist_marker_1"  default="false" />
     <arg name="amcl_1"          default="true" />
     <arg name="global_ekf_1"    default="false" />
     <arg name="move_base_1"     default="true" />
@@ -21,7 +21,7 @@
     <arg name="ns_2"            default="jackal_2" />
     <arg name="config_2"        default="front_laser" />
     <arg name="init_pose_2"     default="-x 2 -y 0 -Y 0" />
-    <arg name="twist_marker_2"  default="true" />
+    <arg name="twist_marker_2"  default="false" />
     <arg name="amcl_2"          default="true" />
     <arg name="global_ekf_2"    default="false" />
     <arg name="move_base_2"     default="true" />
@@ -53,8 +53,7 @@
         <arg name="twist_marker"    value="$(arg twist_marker_1)" />
         <arg name="amcl"            value="$(arg amcl_1)" />
         <arg name="global_ekf"      value="$(arg global_ekf_1)" />
-        <arg name="move_base"       default="$(arg move_base_1)" />
-
+        <arg name="move_base"       value="$(arg move_base_1)" />
     </include>
 
     <!-- Launch Jackal 2 -->
@@ -66,7 +65,7 @@
             <arg name="twist_marker"    value="$(arg twist_marker_2)" />
             <arg name="amcl"            value="$(arg amcl_2)" />
             <arg name="global_ekf"      value="$(arg global_ekf_2)" />
-            <arg name="move_base"       default="$(arg move_base_2)" />
+            <arg name="move_base"       value="$(arg move_base_2)" />
         </include>
     </group>
 </launch>

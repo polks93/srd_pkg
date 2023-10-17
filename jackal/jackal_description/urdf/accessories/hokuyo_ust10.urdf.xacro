@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="hokuyo_ust10_mount" params="prefix topic parent_link min_angle:=-2.35619 max_angle:=2.35619 *origin">
+  <xacro:macro name="hokuyo_ust10_mount" params="prefix topic parent_link min_angle:=-2.35619 max_angle:=2.35619 *origin robot_namespace:=/">
 
     <xacro:macro name="hokuyo_ust10" params="frame:=laser topic:=scan sample_size:=720 update_rate:=50
-               min_angle:=-2.35619 max_angle:=2.35619 min_range:=0.1 max_range:=30.0 robot_namespace:=/">
+                                             min_range:=0.1 max_range:=30.0 robot_namespace:=/">
+
       <link name="${frame}">
         <inertial>
           <mass value="1.1" />
@@ -15,7 +16,7 @@
       </link>
 
       <gazebo reference="${frame}">
-        <turnGravityOff>true</turnGravityOff>
+        <turnGravityOff>false</turnGravityOff>
         <sensor type="ray" name="${frame}">
           <pose>0 0 0 0 0 0</pose>
           <visualize>false</visualize>
@@ -42,14 +43,14 @@
           </ray>
           <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
             <topicName>${topic}</topicName>
-            <frameName>${frame}</frameName>
+            <frameName>${robot_namespace}/${frame}</frameName>
             <robotNamespace>${robot_namespace}</robotNamespace>
           </plugin>
         </sensor>
       </gazebo>
     </xacro:macro>
 
-    <xacro:hokuyo_ust10 frame="${prefix}_laser" topic="${topic}"/>
+    <xacro:hokuyo_ust10 frame="${prefix}_laser" topic="${topic}" robot_namespace="$(arg namespace)" />
 
     <joint name="${prefix}_laser_mount_joint" type="fixed">
       <xacro:insert_block name="origin" />

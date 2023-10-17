@@ -11,14 +11,23 @@
         <rosparam file="$(find srd_pkg)/jackal/params/move_base/base_local_planner_params.yaml"             command="load" />
         <rosparam file="$(find srd_pkg)/jackal/params/move_base/move_base_params.yaml"                      command="load" />
         
+        <!-- Global and local planners -->
         <param name="base_global_planner"       type="string"   value="navfn/NavfnROS" />
         <param name="base_local_planner"                        value="base_local_planner/TrajectoryPlannerROS"/>
         
-        <param name="global_costmap/global_frame"               value="$(arg ns)/odom"/>
-        <param name="global_costmap/robot_base_frame"           value="$(arg ns)/base_link"/>
-        <param name="local_costmap/global_frame"                value="$(arg ns)/odom"/>
-        <param name="local_costmap/robot_base_frame"            value="$(arg ns)/base_link"/>
-        
+        <!-- Correcting default value of frames -->
+        <param name="global_costmap/robot_base_frame"                   value="$(arg ns)/base_link" />
+        <param name="local_costmap/global_frame"                        value="$(arg ns)/odom" />
+        <param name="local_costmap/robot_base_frame"                    value="$(arg ns)/base_link" />
+
+        <!-- Parametri non più necessari -->
+        <!-- <param name="global_costmap/global_frame"                       value="map" />
+        <param name="global_costmap/scan/sensor_frame"                  value="$(arg ns)/front/scan" />
+        <param name="global_costmap/obstacle_layer/scan/sensor_frame"   value="$(arg ns)/front/scan" />     
+        <param name="local_costmap/scan/sensor_frame"                   value="$(arg ns)/front/scan" />
+        <param name="local_costmap/obstacle_layer/scan/sensor_frame"    value="$(arg ns)/front/scan" /> -->
+
+        <!-- Global costmap e AMCL usano il laser principale montato in alto -->
         <rosparam param="global_costmap/obstacles_layer/scan"   subst_value="true">
         {sensor_frame: $(arg ns)/front_laser,
             data_type: LaserScan,
@@ -30,10 +39,12 @@
             obstacle_range: 2.5,
             raytrace_range: 3.0}
         </rosparam>
+
+        <!-- Local costmap usa il laser montato sul paraurti frontale, permettendo di vedere anche ostacoli molto bassi -->
         <rosparam param="local_costmap/obstacles_layer/scan"    subst_value="true">
-        {sensor_frame: $(arg ns)/front_laser,
+        {sensor_frame: $(arg ns)/fender_laser,
             data_type: LaserScan,
-            topic: front/scan,
+            topic: fender/scan,
             marking: true,
             clearing: true,
             min_obstacle_height: -2.0,
@@ -42,8 +53,10 @@
             raytrace_range: 3.0}
         </rosparam>
         
-        <remap from="odom"    to="odometry/local_filtered" />
-        <remap from="cmd_vel" to="move_base/cmd_vel"/>
+        <!-- Remapping of topics -->
+        <remap from="map"       to="/map" />
+        <remap from="odom"      to="odometry/local_filtered" />
+        <remap from="cmd_vel"   to="move_base/cmd_vel"/>
     </node>
 
 </launch>

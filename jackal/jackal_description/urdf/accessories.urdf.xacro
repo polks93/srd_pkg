@@ -17,7 +17,7 @@
   <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories/bridge_plate.urdf.xacro" />
 
   <!-- 2D Lidars -->
-  <xacro:include filename="$(find sick_tim)/urdf/sick_tim.urdf.xacro" />
+  <xacro:include filename="$(find srd_pkg)/include/sick_tim/urdf/sick_tim.urdf.xacro" />
   <xacro:include filename="$(find srd_pkg)/include/lms1xx/urdf/sick_lms1xx.urdf.xacro" />
   <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories/sick_lms1xx_inverted_mount.urdf.xacro" />
   <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories/sick_lms1xx_upright_mount.urdf.xacro" />
@@ -93,7 +93,7 @@
     <!-- SICK Tim -->
     <xacro:if value="${lidar_model == 'tim551'}">
       <xacro:property name="prefix" value="$(optenv JACKAL_LASER_PREFIX tim551)" />
-      <xacro:sick_tim551 name="${prefix}" ros_topic="${topic}"/>
+      <xacro:sick_tim551 name="${prefix}" ros_topic="${topic}" robot_namespace="$(arg namespace)"/>
       <joint name="${prefix}_mount_link_joint" type="fixed">
         <origin xyz="$(optenv JACKAL_LASER_OFFSET 0 0 0)" rpy="$(optenv JACKAL_LASER_RPY 0 0 0)"/>
         <parent link="${parent}"/>
@@ -276,10 +276,10 @@
 
   <!-- If enabled, generate the flea3 camera payload with a tilt of 30 degrees. -->
   <xacro:if value="$(optenv JACKAL_FLEA3 0)">
-    <xacro:property name="name"   value="$(optenv JACKAL_FLEA3_NAME front)" />
-    <xacro:property name="tilt"   value="$(optenv JACKAL_FLEA3_TILT 0.5236)" />
-    <xacro:property name="tower"  value="$(optenv JACKAL_FLEA3_TOWER 1)" />
-    <xacro:property name="mount"  value="$(optenv JACKAL_FLEA3_MOUNT front)" />
+    <xacro:property name="name" value="$(optenv JACKAL_FLEA3_NAME front)" />
+    <xacro:property name="tilt" value="$(optenv JACKAL_FLEA3_TILT 0.5236)" />
+    <xacro:property name="tower" value="$(optenv JACKAL_FLEA3_TOWER 1)" />
+    <xacro:property name="mount" value="$(optenv JACKAL_FLEA3_MOUNT front)" />
     <xacro:property name="prefix" value="$(optenv JACKAL_FLEA3_PREFIX ${mount})" />
     <xacro:property name="parent" value="$(optenv JACKAL_FLEA3_PARENT ${mount}_mount)" />
 
@@ -431,11 +431,12 @@
     <xacro:include filename="$(find srd_pkg)/jackal/jackal_description/urdf/accessories/hokuyo_ust10.urdf.xacro" />
     <xacro:if value="$(optenv JACKAL_FRONT_FENDER_UST10 0)">
       <xacro:hokuyo_ust10_mount
-        prefix="front"
+        prefix="fender"
         parent_link="front_fender_accessory_link"
-        min_angle="${-pi/2}"
-        max_angle="${pi/2}"
-        topic="$(optenv JACKAL_FRONT_LASER_TOPIC front/scan)">
+        min_angle="${-pi*7/13}"
+        max_angle="${pi*7/13}"
+        topic="fender/scan"
+        robot_namespace="$(arg namespace)" >
         <origin xyz="0 0 0" rpy="0 0 0" />
       </xacro:hokuyo_ust10_mount>
     </xacro:if>
